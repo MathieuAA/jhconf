@@ -1,0 +1,67 @@
+entity Useless {}
+
+entity Category (category) {
+    description String required,
+    sortOrder Integer,
+    dateAdded LocalDate,
+    dateModified LocalDate,
+    status CategoryStatus
+}
+
+enum CategoryStatus {
+    AVAILABLE, RESTRICTED, DISABLED
+}
+
+entity Product (product) {
+    title String required,
+    keywords String,
+    description String,
+    rating Integer,
+    dateAdded LocalDate,
+    dateModified LocalDate
+}
+
+entity Customer (customer) {
+    firstName String,
+    lastName String,
+    email String,
+    telephone String
+}
+
+entity Address (address) {
+    address1 String,
+    address2 String,
+    city String,
+    postcode String required maxlength(10),
+    country String required maxlength(2)
+}
+
+entity Wishlist (whishlist) {
+    title String required,
+    restricted Boolean
+}
+
+relationship OneToMany {
+    Wishlist{product(title)} to Product{wishlist}
+}
+
+relationship OneToMany {
+    Customer{address} to Address{customer}
+}
+
+relationship OneToMany {
+    Customer{whislist(title)} to Wishlist{customer}
+}
+
+relationship ManyToOne {
+    Category{parent} to Category
+}
+
+relationship ManyToMany {
+    Category{product(title)} to Product{category}
+}
+
+paginate Customer, Product, Category with pagination
+paginate Address with pager
+paginate Product with infinite-scroll
+service Category with serviceClass

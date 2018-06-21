@@ -1,0 +1,8 @@
+// For Deepu & Antonio :)
+
+@service(serviceClass)
+entity A
+
+@service(serviceClass)
+@paginate(infinite-scroll)
+entity B
